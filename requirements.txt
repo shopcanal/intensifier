@@ -1,0 +1,4 @@
+aactivator
+pillow==9.2.0
+requests==2.28.1
+validators
