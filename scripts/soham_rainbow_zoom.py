@@ -1,9 +1,11 @@
 import requests
+import os
 from argparse import ArgumentParser
 from tempfile import NamedTemporaryFile
 
 from PIL import Image
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def zoom_at(soham_img, x, y, zoom):
     w, h = soham_img.size
@@ -12,12 +14,11 @@ def zoom_at(soham_img, x, y, zoom):
     return soham_img.resize((w, h), Image.LANCZOS)
 
 parser = ArgumentParser(description='Inputs for the intensifier')
-parser.add_argument('-background-path', metavar='bp', type=str, help='path to the background gif')
 parser.add_argument('-output-path', metavar='op', type=str, help='path to the output')
 args = parser.parse_args()
 
-output_path, background_path = args.output_path, args.background_path
-# background_path = '/Users/simonxie/Downloads/rainbow_heart.gif'
+output_path = args.output_path
+background_path = os.path.join(BASE_DIR, 'gifs/rainbow_heart.gif')
 background_img = Image.open(background_path)
 
 duration = 65
