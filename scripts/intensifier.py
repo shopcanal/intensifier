@@ -10,12 +10,12 @@ parser = ArgumentParser(description='Inputs for the intensifier')
 
 parser.add_argument('-u', metavar='u', type=str, help='url of the image')
 parser.add_argument('-p', metavar='p', type=str, help='path to local image')
-parser.add_argument('-output-path', metavar='op', type=str, help='path to the output')
+parser.add_argument('-o', metavar='o', type=str, help='path to the output')
 parser.add_argument('-offset-scale', metavar='os', type=float, help='offset scale of the intensity')
 parser.add_argument('-duration', metavar='d', type=int, help='duration of the gif')
 
 args = parser.parse_args()
-url, path, output_path, offset_scale, duration = args.u, args.p, args.output_path, args.offset_scale or 0.08, args.duration or 30
+url, path, output_path, offset_scale, duration = args.u, args.p, args.o, args.offset_scale or 0.08, args.duration or 30
 assert url or path, 'URL or path must be provided'
 assert output_path, 'Output path must be provided'
 assert 0 < offset_scale < 1 and duration > 0
@@ -32,9 +32,8 @@ else:
     assert os.path.isfile(path), f'{path} is an invalid filepath'
     print("Filepath input")
     img = Image.open(path)
-    base_path, _ = os.path.splitext(path)
 
-img = img.convert('RGBA')
+img = img.convert(mode='RGBA')
 
 x_offset, y_offset = int(img.width * offset_scale), int(img.height * offset_scale)
 
@@ -76,7 +75,6 @@ l_img.paste((255, 255, 255, 0), (img.width - x_offset, 0, img.width, img.height)
 
 
 gif_imgs = (rd_img, u_img, lu_img, d_img, ru_img, r_img, ld_img, l_img)
-gif = img
 img.save(
     fp=output_path,
     format='GIF',
