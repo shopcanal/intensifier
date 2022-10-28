@@ -5,6 +5,7 @@ from tempfile import NamedTemporaryFile
 
 import validators
 from PIL import Image, ImageChops
+from rembg import remove
 
 parser = ArgumentParser(description='Inputs for the intensifier')
 
@@ -13,6 +14,7 @@ parser.add_argument('-p', metavar='p', type=str, help='path to local image')
 parser.add_argument('-o', metavar='o', type=str, help='path to the output')
 parser.add_argument('-offset-scale', metavar='os', type=float, help='offset scale of the intensity')
 parser.add_argument('-duration', metavar='d', type=int, help='duration of the gif')
+parser.add_argument('-remove-bg', metavar='r', type=bool, help='removes the background')
 
 args = parser.parse_args()
 url, path, output_path, offset_scale, duration = args.u, args.p, args.o, args.offset_scale or 0.08, args.duration or 30
@@ -34,6 +36,8 @@ else:
     img = Image.open(path)
 
 img = img.convert(mode='RGBA')
+if args.remove_bg:
+    img = remove(img)
 
 x_offset, y_offset = int(img.width * offset_scale), int(img.height * offset_scale)
 
