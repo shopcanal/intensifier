@@ -1,6 +1,7 @@
 import os
 import requests
 from argparse import ArgumentParser
+from random import shuffle
 from tempfile import NamedTemporaryFile
 
 import validators
@@ -78,11 +79,12 @@ l_img = ImageChops.offset(img, x_offset * -1, 0)
 l_img.paste((255, 255, 255, 0), (img.width - x_offset, 0, img.width, img.height))
 
 
-gif_imgs = (rd_img, u_img, lu_img, d_img, ru_img, r_img, ld_img, l_img)
-img.save(
+gif_imgs = [img, rd_img, u_img, lu_img, d_img, ru_img, r_img, ld_img, l_img]
+shuffle(gif_imgs)
+gif_imgs[0].save(
     fp=output_path,
     format='GIF',
-    append_images=gif_imgs,
+    append_images=gif_imgs[1:],
     save_all=True,
     duration=duration,
     loop=0,
