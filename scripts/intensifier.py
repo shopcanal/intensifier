@@ -1,5 +1,6 @@
 import os
 import requests
+import sys
 from argparse import ArgumentParser
 from random import shuffle
 from tempfile import NamedTemporaryFile
@@ -16,6 +17,7 @@ parser.add_argument('-o', metavar='o', type=str, help='path to the output')
 parser.add_argument('-offset-scale', metavar='os', type=float, help='offset scale of the intensity')
 parser.add_argument('-duration', metavar='d', type=int, help='duration of the gif')
 parser.add_argument('-remove-bg', metavar='r', type=bool, help='removes the background')
+parser.add_argument('-only-png', metavar='op', type=bool, help='Only save the png')
 
 args = parser.parse_args()
 url, path, output_path, offset_scale, duration = args.u, args.p, args.o, args.offset_scale or 0.08, args.duration or 30
@@ -39,6 +41,10 @@ else:
 img = img.convert(mode='RGBA')
 if args.remove_bg:
     img = remove(img)
+
+if args.only_png:
+    img.save(output_path)
+    sys.exit()
 
 x_offset, y_offset = int(img.width * offset_scale), int(img.height * offset_scale)
 
