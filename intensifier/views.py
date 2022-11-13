@@ -1,3 +1,4 @@
+import os
 import requests
 from tempfile import NamedTemporaryFile
 
@@ -21,11 +22,13 @@ def intensify_image_view(request: HttpRequest):
             offset_scale = cleaned_data["offset_scale"]
             if image_file:
                 img = Image.open(image_file.file, mode="r")
+                return_filename = os.path.splitext(image_file._name)[0] + '-intensifies.gif'
             else:
                 with NamedTemporaryFile(mode="w+b", delete=True) as temp:
                     r = requests.get(image_url)
                     temp.write(r.content)
                     img = Image.open(temp.name)
+                return_filename = 'intensifies.gif'
             gif_imgs = intensify_image(
                 img=img, offset_scale=offset_scale, remove_bg=remove_background
             )
@@ -43,7 +46,7 @@ def intensify_image_view(request: HttpRequest):
                 return FileResponse(
                     open(temp.name, "rb"),
                     as_attachment=True,
-                    filename="intensifies.gif",
+                    filename=return_filename,
                 )
         else:
             render(request, "index.html", {"intensifier_form": intensifier_form})
