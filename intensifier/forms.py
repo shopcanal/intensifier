@@ -30,4 +30,6 @@ class IntensifierForm(forms.Form):
         image_url = self.cleaned_data.get("image_url")
         if not image_file and not image_url:
             raise forms.ValidationError("One of Image Upload or Image URL is required")
+        if image_file and image_file:
+            raise forms.ValidationError("Only one of Image Upload or Image URL can be chosen")
         return super().clean()
