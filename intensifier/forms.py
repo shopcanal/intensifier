@@ -28,8 +28,9 @@ class IntensifierForm(forms.Form):
     def clean(self) -> Dict[str, Any]:
         image_file = self.cleaned_data.get("image_file")
         image_url = self.cleaned_data.get("image_url")
+        print(image_url, image_file)
         if not image_file and not image_url:
             raise forms.ValidationError("One of Image Upload or Image URL is required")
-        if image_file and image_file:
+        if image_file and image_url:
             raise forms.ValidationError("Only one of Image Upload or Image URL can be chosen")
         return super().clean()
