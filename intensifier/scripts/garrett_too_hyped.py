@@ -5,16 +5,18 @@ from tempfile import NamedTemporaryFile
 from PIL import Image, ImageChops
 
 
-parser = ArgumentParser(description='Inputs for the intensifier')
-parser.add_argument('-output-path', metavar='op', type=str, help='path to the output')
+parser = ArgumentParser(description="Inputs for the intensifier")
+parser.add_argument("-output-path", metavar="op", type=str, help="path to the output")
 args = parser.parse_args()
 
 output_path = args.output_path
-assert output_path, 'Output path must be provided'
+assert output_path, "Output path must be provided"
 
-garrett_hyped_url = 'https://emoji.slack-edge.com/T01GP2RMK3R/garrett-hyped/f79a108375d1271f.png'
+garrett_hyped_url = (
+    "https://emoji.slack-edge.com/T01GP2RMK3R/garrett-hyped/f79a108375d1271f.png"
+)
 
-with NamedTemporaryFile(mode='w+b', delete=True) as temp:
+with NamedTemporaryFile(mode="w+b", delete=True) as temp:
     r = requests.get(garrett_hyped_url)
     temp.write(r.content)
     img = Image.open(temp.name)
@@ -39,7 +41,9 @@ for i in range(4):
 previous_x_offset, previous_y_offset = x_offset, y_offset_inc
 
 for i in range(4, 7):
-    x_offset, y_offset = (previous_x_offset - i * x_offset_inc * -1), (previous_y_offset - i * y_offset_inc)
+    x_offset, y_offset = (previous_x_offset - i * x_offset_inc * -1), (
+        previous_y_offset - i * y_offset_inc
+    )
     offset_img = ImageChops.offset(img, x_offset, y_offset)
     offset_img.paste(
         (255, 255, 255, 0),
@@ -53,7 +57,7 @@ for i in range(4, 7):
 
 imgs[0].save(
     fp=output_path,
-    format='GIF',
+    format="GIF",
     append_images=imgs[1:],
     save_all=True,
     duration=60,

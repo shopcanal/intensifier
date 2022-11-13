@@ -4,21 +4,23 @@ from tempfile import NamedTemporaryFile
 
 from PIL import Image, ImageChops, ImageOps
 
-parser = ArgumentParser(description='Inputs for the intensifier')
-parser.add_argument('-output-path', metavar='op', type=str, help='path to the output')
+parser = ArgumentParser(description="Inputs for the intensifier")
+parser.add_argument("-output-path", metavar="op", type=str, help="path to the output")
 args = parser.parse_args()
 
 output_path = args.output_path
-assert output_path, 'Output path must be provided'
+assert output_path, "Output path must be provided"
 
-toby_proud_url = 'https://emoji.slack-edge.com/T01GP2RMK3R/toby-liftoff/c940a71a6d277b95.gif'
+toby_proud_url = (
+    "https://emoji.slack-edge.com/T01GP2RMK3R/toby-liftoff/c940a71a6d277b95.gif"
+)
 
-with NamedTemporaryFile(mode='w+b', delete=True) as temp:
+with NamedTemporaryFile(mode="w+b", delete=True) as temp:
     r = requests.get(toby_proud_url)
     temp.write(r.content)
     img = Image.open(temp.name)
 
-img = img.convert('RGBA')
+img = img.convert("RGBA")
 
 x_offset_inc, y_offset_inc = int(img.width / 8), int(img.width / 8)
 
@@ -85,7 +87,7 @@ for i in range(8):
 
 output_imgs = []
 for ul_img, ur_img, dr_img, dl_img in zip(ul_imgs, ur_imgs, dr_imgs, dl_imgs):
-    output_img = Image.new('RGBA', (img.width * 2, img.height * 2))
+    output_img = Image.new("RGBA", (img.width * 2, img.height * 2))
     output_img.paste(ul_img, (0, 0))
     output_img.paste(ur_img, (img.width, 0))
     output_img.paste(dr_img, (img.width, img.height))
@@ -94,7 +96,7 @@ for ul_img, ur_img, dr_img, dl_img in zip(ul_imgs, ur_imgs, dr_imgs, dl_imgs):
 
 output_imgs[0].save(
     fp=output_path,
-    format='GIF',
+    format="GIF",
     append_images=output_imgs[1:],
     save_all=True,
     duration=60,

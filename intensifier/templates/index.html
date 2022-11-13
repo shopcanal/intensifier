@@ -1,0 +1,7 @@
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h1>Welcome to Simon's intensifier</h1>
+    <div>One of Image File or Image URL is required</div>
+     {{ intensifier_form.as_p }}
+    <button type="submit">Intensify!</button>
+  </form>

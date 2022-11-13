@@ -1,5 +1,6 @@
 import sys
 from PIL import Image
+
 # from rembg import remove
 
 input_path = sys.argv[1]
@@ -16,10 +17,10 @@ except EOFError:
 
 imgs[0].save(
     fp=input_path,
-    format='GIF',
+    format="GIF",
     append_images=imgs[1:],
     save_all=True,
-    duration=im.info['duration'],
+    duration=im.info["duration"],
     loop=0,
     disposal=2,
 )

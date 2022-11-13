@@ -1,4 +1,6 @@
 aactivator
+black
+django<=4.1
 ipython
 moviepy
 opencv-python
