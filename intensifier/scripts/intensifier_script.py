@@ -46,13 +46,14 @@ else:
     print("Filepath input")
     img = Image.open(path)
 
-if args.only_png:
-    img.save(output_path)
-    sys.exit()
-
 x_offset, y_offset = int(img.width * offset_scale), int(img.height * offset_scale)
 
 gif_imgs = intensify_image(img, offset_scale, args.remove_bg)
+
+if args.only_png:
+    gif_imgs[0].save(output_path)
+    sys.exit()
+
 gif_imgs[0].save(
     fp=output_path,
     format="GIF",
