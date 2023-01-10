@@ -9,7 +9,7 @@ for letter in string:
     if letter_lowered in ascii_lowercase:
         new_word += f':{letter_lowered}-intensifies:'
     elif letter == ' ':
-        new_word += f'  '
+        new_word += f'   '
     else:
         new_word += f'{letter}'
 print(new_word)
