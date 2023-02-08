@@ -4,12 +4,14 @@ from tempfile import NamedTemporaryFile
 
 from django.http import FileResponse, HttpRequest
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from PIL import Image
 
 from intensifier.forms import IntensifierForm
 from intensifier.utils import intensify_image
 
 
+@csrf_exempt
 def intensify_image_view(request: HttpRequest):
     if request.method == "POST":
         intensifier_form = IntensifierForm(request.POST, request.FILES)
