@@ -36,7 +36,7 @@ def intensify_image_view(request: HttpRequest):
             gif_imgs = intensify_image(
                 img=img, offset_scale=offset_scale, remove_bg=remove_background
             )
-            with NamedTemporaryFile(mode="w+b", delete=True) as temp:
+            with NamedTemporaryFile(mode="w+b", delete=True, suffix='.gif') as temp:
                 gif_imgs[0].save(
                     fp=temp.name,
                     format="GIF",
@@ -50,7 +50,7 @@ def intensify_image_view(request: HttpRequest):
                 return FileResponse(
                     open(temp.name, "rb"),
                     as_attachment=True,
-                    filename=return_filename,
+                    filename='intensifies.gif',
                 )
         else:
             render(request, "index.html", {"intensifier_form": intensifier_form})
