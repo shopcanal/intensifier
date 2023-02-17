@@ -50,7 +50,7 @@ def intensify_image_view(request: HttpRequest):
                 return FileResponse(
                     open(temp.name, "rb"),
                     as_attachment=True,
-                    filename='intensifies.gif',
+                    filename=return_filename,
                 )
         else:
             render(request, "index.html", {"intensifier_form": intensifier_form})
