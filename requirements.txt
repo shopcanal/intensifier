@@ -4,7 +4,7 @@ django<=4.1
 ipython
 moviepy
 opencv-python
-pillow==9.2.0
+pillow
 rembg
 requests==2.28.1
 tqdm
