@@ -2,6 +2,7 @@ aactivator
 black
 django<=4.1
 ipython
+gunicorn
 moviepy
 opencv-python
 pillow
